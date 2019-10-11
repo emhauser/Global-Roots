@@ -1378,11 +1378,7 @@ plot(((RCP6.0_RootsRe50)-(RCP6.0RootsRasterD50)), col = diverge_hcl(20), legend 
 #RootsRaster = RCP, Future; Roots_Re=Contemporary > 0 : Future < now, Shallowing;  <0: Future > now deepening
 
 
-
-
-###Try a t-test on the difference between maps??
-
-#T-Test comparing differences in contemporary and potential veg roots
+#T-Tests comparing differences in contemporary and potential veg roots
 #D99
 D99Diff <- D99Cont-PVegD993
 t.test(D99Diff$layer)
@@ -1408,6 +1404,63 @@ D50Diff <- as.vector(D50Diff$layer)
 qqnorm(D50Diff) #Not as good a the others but still okay
 
 
+## T-Tests for future scenarios vs. contemporary roots
+
+#RCP2.6
+par(mfrow=c(1,1))
+t.test(RCP2.6Sub$layer)
+#Check whether differences are distributed normally
+Diff2.6 <- na.omit(RCP2.6Sub$layer)
+Diff2.6 <- as.vector(Diff2.6$layer)
+qqnorm(Diff2.6) #Looks good!
+
+#RCP2.6_D50
+t.test(RCP2.6SubD50$layer)
+#Check whether differences are distributed normally
+Diff2.6_d5 <- na.omit(RCP2.6SubD50$layer)
+Diff2.6_d5 <- as.vector(Diff2.6_d5$layer)
+qqnorm(Diff2.6_d5)##This one looks ok, no wilcoxon
 
 
+#RCP6.0
+t.test(RCP6.0Sub$layer)
+#Check whether differences are distributed normally
+Diff6.0 <- na.omit(RCP6.0Sub$layer)
+Diff6.0 <- as.vector(Diff6.0$layer)
+qqnorm(Diff6.0) #Looks okay but not as good as others. Try Wilcoxon to check significance.
+hist(Diff6.0)
+Roots6.0 <- as.vector(RCP6.0_RootsRe$layer)
+Roots6.0A <- as.vector(RCP6.0RootsRaster$RootsTot) 
+wilcox.test(Roots6.0,Roots6.0A, paired = T)
+
+#RCP6.0_D50
+t.test(RCP6.0SubD50$layer)
+Diff6.05 <- na.omit(RCP6.0SubD50$layer)
+Diff6.05 <- as.vector(Diff6.05$layer)
+qqnorm(Diff6.05)
+hist(Diff6.05)##This looks ok to me. No wilxocon.
+
+#RCP8.5
+t.test(RCP8.5Sub$layer)
+#Check whether differences are distributed normally
+Diff8.5 <- na.omit(RCP8.5Sub$layer)
+Diff8.5 <- as.vector(Diff8.5$layer)
+qqnorm(Diff8.5)#Okay, but not as good as the others
+#Try Wilcoxon to check significance.
+Roots8.5 <- as.vector(RCP8.5_RootsRe$layer)
+Roots8.5A <- as.vector(RCP8.5RootsRaster$RootsTot) 
+wilcox.test(Roots8.5,Roots8.5A, paired = T)
+#Wilcoxon signed rank test with continuity correction
+
+#RCP4.5
+t.test(RCP4.5Sub$layer)
+#Check whether differences are distributed normally
+Diff4.5 <- na.omit(RCP4.5Sub$layer)
+Diff4.5 <- as.vector(Diff4.5$layer)
+qqnorm(Diff4.5)
+hist(Diff4.5)
+#Hist looks ok to me. QQ a little bit of tail. Check with Wilcoxon.
+Roots4.5 <- as.vector(RCP4.5_RootsRe$layer)
+Roots4.5A <- as.vector(RCP4.5RootsRaster$RootsTot) 
+wilcox.test(Roots4.5,Roots4.5A, paired = T)
 
