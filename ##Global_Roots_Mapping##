@@ -288,23 +288,21 @@ plot(ContVeg9, zlim = c(0,0.3), col = rev(sequential_hcl(100)), legend = F, box=
 
 ###Making Histograms
 ##Histogram for D99 (Desert roots set to NA)
-par(mfrow = c(1,1))
+par(mfrow = c(2,1))
 hist(PVegD993, col=rgb(0,0,1,0.5), freq = F, breaks = c( 0, 0.25,0.5,0.75,1,1.25, 1.5,1.75,2,2.25,2.5,2.75,3,3.25), xlab = "Rooting Depth (D99)")
-hist(ContVeg7, col= rgb(1,0,0,0.5), add = T, freq = F,breaks = c(0, 0.25,0.5,0.75,1,1.25, 1.5,1.75,2,2.25,2.5,2.75,3,3.25))
+hist(ContVeg7, col= rgb(1,0,0,0.5), add = F, freq = F,breaks = c(0, 0.25,0.5,0.75,1,1.25, 1.5,1.75,2,2.25,2.5,2.75,3,3.25))
 #legend("topright", legend = c("Potential", "Contemporary"), fill = c(rgb(0,0,1,0.5),rgb(1,0,0,0.5)), bty = "n", cex = 1)
 
 ##Histogram for D95
-par(mfrow = c(1,1))
+par(mfrow = c(2,1))
 hist(PVegD953, col=rgb(0,0,1,0.5), freq = F, breaks = c( 0, 0.25,0.5,0.75,1,1.25, 1.5,1.75,2), xlab = "Rooting Depth (D95)")
-hist(ContVeg8, col= rgb(1,0,0,0.5), add = T, freq = F,breaks = c(0, 0.25,0.5,0.75,1,1.25, 1.5,1.75,2))
+hist(ContVeg8, col= rgb(1,0,0,0.5), add = F, freq = F,breaks = c(0, 0.25,0.5,0.75,1,1.25, 1.5,1.75,2))
 #legend("topright", legend = c("Potential", "Contemporary"), fill = c(rgb(0,0,1,0.5),rgb(1,0,0,0.5)), bty = "n", cex = 1)
 
 ##Histogram for D50
-par(mfrow = c(1,1), mar = c(4,4,2,1))
+par(mfrow = c(2,1), mar = c(4,4,2,1))
 hist(PVegD503, col=rgb(0,0,1,0.5), freq = F, breaks = c( 0,0.1,0.2,0.3), xlab = "Rooting Depth (D50)", ylim = c(0,8))
-hist(ContVeg9, col= rgb(1,0,0,0.5), add = T, freq = F,breaks = c(0,0.1,0.2,0.3))
-plot(5,-5,col = "white")
-legend("topright", legend = c("Potential", "Contemporary"), fill = c(rgb(0,0,1,0.5),rgb(1,0,0,0.5)), bty = "n", cex = 1)
+hist(ContVeg9, col= rgb(1,0,0,0.5), add = F, freq = F,breaks = c(0,0.1,0.2,0.3))
 
 
 ####Calculating a Statistic
@@ -1384,31 +1382,32 @@ plot(((RCP6.0_RootsRe50)-(RCP6.0RootsRasterD50)), col = diverge_hcl(20), legend 
 
 ###Try a t-test on the difference between maps??
 
+#T-Test comparing differences in contemporary and potential veg roots
+#D99
 D99Diff <- D99Cont-PVegD993
 t.test(D99Diff$layer)
-D99Diff # 9331200 cells
-cellStats(D99Diff, stat = 'countNA', na.rm = T) #7424104
-cellStats(D99Diff, stat = 'mean', na.rm = T) #-0.06581639
-cellStats(D99Diff, stat = 'sd', na.rm = T)#0.7096485
--0.06581639/(0.7096485/(sqrt(9331200-7424104))) # -128.0787 (t-value) p < 0.0001
+#Check to make sure differences are distirbuted normally.
+D99Diff <- na.omit(D99Diff$layer)
+D99Diff <- as.vector(D99Diff$layer)
+qqnorm(D99Diff) #looks good.
 
+#D95
 D95Diff <- D95Cont-PVegD953 #t = -85.342, df = 1907100, p-value < 2.2e-16
 t.test(D95Diff$layer)
-#D99Diff # 9331200 cells
-#cellStats(D99Diff, stat = 'countNA', na.rm = T) #7424104
-#cellStats(D99Diff, stat = 'mean', na.rm = T) #-0.06581639
-#cellStats(D99Diff, stat = 'sd', na.rm = T)#0.7096485
-#-0.06581639/(0.7096485/(sqrt(9331200-7424104))) # -128.0787 (t-value) p < 0.0001
+#Check to make sure differences are distirbuted normally.
+D95Diff <- na.omit(D95Diff$layer)
+D95Diff <- as.vector(D95Diff$layer)
+qqnorm(D95Diff) #Also looks good.
 
+#D50
 D50Diff <- D50Cont-PVegD503
 t.test(D50Diff$layer)
-#t = 111.75, df = 1907100, p-value < 2.2e-16
-#alternative hypothesis: true mean is not equal to 0
-#95 percent confidence interval:
-#  0.003494111 0.003618862
-#sample estimates:
-#  mean of x 
-#0.003556487 
+#Check to make sure differences are distirbuted normally.
+D50Diff <- na.omit(D50Diff$layer)
+D50Diff <- as.vector(D50Diff$layer)
+qqnorm(D50Diff) #Not as good a the others but still okay
+
+
 
 
 
