@@ -41,13 +41,13 @@ library(lattice)
 ###Datasets needed:
  #Potential veg, modified to divide northern and arid deserts and to #account for known rooting limitations in northern biomes above 60 #degrees N, were frozen soils restrict root growth.
 
- potentVeg=raster("/Users/lindaparsons/Desktop/Biomes_Roots_Data/PVeg_Adj2.tif")
+ potentVeg=raster("PVeg_Adj2.tif")
 
 
  #Contemporary veg, modified to divide northern and arid deserts and to #account for known rooting limitations in northern biomes above 60 #degrees N, were frozen soils restrict root growth. Because #contemporary map categories were reassigned to align with potential #veg categories, there are 2 distinct maps for root equation #assignemnts and aboveground vegetation class assignments. 
 
-GLC2000Veg <- raster("/Users/lindaparsons/Desktop/Biomes_Roots_Data/GlC2000Veg4.tif")
-NewGLC <- raster("GLC2000Roots2.tif")
+GLC2000Veg <- raster("Contemporary_Vegetation.tif")
+NewGLC <- raster("Contemporary_roots.tif")
 
 
 
